@@ -8,9 +8,19 @@ class ApiRoute {
     constructor() {
         this.router = express.Router();
 
-        this.router.use('/event', eventApi)
+        this.router.use('/event', this.addGreeting, eventApi)
         this.router.get('/', this.getEmpty);
         this.router.get('/:params', this.getParams);
+    }
+
+    addGreeting(req: Request, res: Response, next: NextFunction) {
+        console.log('Hello Erni');
+        // Continues to process the next route
+        next();
+        // Responds request with 200 & the json inside of it
+        // res.json({message: 'Middleware responds'});
+        // You can also set the response code.
+        //res.status(404).json({message: 'we returned 404'});
     }
 
     getEmpty(req: Request, res: Response, next: NextFunction) {
