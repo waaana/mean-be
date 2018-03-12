@@ -5,7 +5,7 @@
  */
 
 var app = require('../src/app');
-var debug = require('debug')('dmcfull:server');
+var debug = require('debug')('erni:server');
 var http = require('http');
 
 /**

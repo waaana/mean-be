@@ -11,7 +11,7 @@ import { Request, Response, Application } from 'express';
 import { SessionOptions } from 'express-session';
 
 const env: string = process.env.NODE_ENV || 'local';
-const secret: string = process.env.cookieSecret || 'dmc_secret';
+const secret: string = process.env.cookieSecret || 'erni_secret';
 
 const cookieParser = require('cookie-parser');
 
