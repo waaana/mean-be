@@ -8,9 +8,9 @@ class EventRoute {
     constructor() {
         this.router = express.Router();
 
-        this.router.get('/:group/:id', eventController.get);
+        this.router.get('/:id', eventController.get);
         this.router.post('/create', eventController.create);
-        this.router.post('/filters/:group', eventController.queryPaginated);
+        this.router.post('/filters', eventController.queryPaginated);
         this.router.post('/update', eventController.update);
         this.router.post('/delete', eventController.delete);
     }

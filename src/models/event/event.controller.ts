@@ -27,7 +27,7 @@ const EventController: any = {
     get: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const findOptions: IFindOption = {
-                group: req.params.group
+                _id: req.params.id
             };
             const event = await EventModel.findOne(findOptions, allowedEventFields);
             if (event) {
@@ -41,8 +41,7 @@ const EventController: any = {
 
     queryPaginated: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            let group = req.params.group;
-            const eventResponse = await EventController.queryDataPaginated(req.body, group);
+            const eventResponse = await EventController.queryDataPaginated(req.body);
             return respondSuccess(res, [])(eventResponse);
         } catch (err) {
             return handleError(res)(err);
@@ -77,7 +76,7 @@ const EventController: any = {
             };
             if (await EventModel.findOne(findOptions)) {
                 if (!await EventModel.findOneAndRemove(findOptions)) {
-                    const eventResponse = await EventController.queryDataPaginated(paginated, group);
+                    const eventResponse = await EventController.queryDataPaginated(paginated);
                     return respondSuccess(res, [])(eventResponse);
                 }
                 throw "Problem with deleting event";
@@ -88,7 +87,7 @@ const EventController: any = {
         }
     },
 
-    queryDataPaginated: async (filterInfo: any, group: string, reqUser: string, isAdmin: boolean) => {
+    queryDataPaginated: async (filterInfo: any, reqUser: string, isAdmin: boolean) => {
         try {
             let { filter, pageSize, pageIndex, sort, queryIndex } = filterInfo;
             if (!filter) {
@@ -111,9 +110,6 @@ const EventController: any = {
                     mongoFilter[property] = `/.*${propValue}*/i`;
                 }
             };
-            if (!isAdmin) {
-                mongoFilter.group = group;
-            }
             const list = await EventModel.find(mongoFilter, allowedEventFields)
                 .skip(pageSize * pageIndex)
                 .limit(pageSize)

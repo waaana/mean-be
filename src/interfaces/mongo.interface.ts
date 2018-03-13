@@ -6,5 +6,6 @@ export class IEventSchema {
 }
 
 export class IFindOption {
-    group: string | undefined;
+    group?: string | undefined;
+    _id?: string | undefined;
 }
